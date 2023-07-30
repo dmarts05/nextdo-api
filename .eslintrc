@@ -1,0 +1,21 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:perfectionist/recommended-natural"
+    ],
+    "plugins": ["perfectionist"],
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "rules": {
+        "perfectionist/sort-objects": [
+            "error",
+            {
+                "type": "natural",
+                "order": "asc"
+            }
+        ]
+    }
+}
