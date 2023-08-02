@@ -1,11 +1,13 @@
+import { Response } from 'express';
 import { Router } from 'express';
 import { readdirSync } from 'fs';
 
 const PATH_ROUTER = `${__dirname}`;
 
-export const router = Router();
+const router = Router();
 
-const removeFileNameExtension = (fileName: string) => fileName.split('.')[0];
+const removeFileNameExtension = (fileName: string) =>
+  fileName.split('.').shift();
 
 for (const file of readdirSync(PATH_ROUTER)) {
   const fileName = removeFileNameExtension(file);
@@ -15,3 +17,12 @@ for (const file of readdirSync(PATH_ROUTER)) {
     router.use(`/${fileName}`, module.router);
   });
 }
+
+// Add a welcome message at the root of the API
+router.get('/', (_, res: Response) => {
+  res.send({
+    message: 'Welcome to NextDo API!',
+  });
+});
+
+export default router;
