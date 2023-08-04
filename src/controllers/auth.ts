@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 
 import { loginService, registerService } from '../services/auth';
-import { UserAlreadyRegisteredError } from '../utils/errors';
+import {
+  UserAlreadyRegisteredError,
+  UserIncorrectPasswordError,
+  UserNotFoundError,
+} from '../utils/errors';
 
 const registerController = async (req: Request, res: Response) => {
   try {
@@ -18,9 +22,19 @@ const registerController = async (req: Request, res: Response) => {
 };
 
 const loginController = async (req: Request, res: Response) => {
-  // const { email, password } = req.body;
-  // TODO: Handle errors
-  res.send(await loginService());
+  try {
+    const { email, password } = req.body;
+    const result = await loginService(email, password);
+    res.send(result);
+  } catch (error) {
+    if (error instanceof UserNotFoundError) {
+      return res.status(404).send({ error: (error as Error).message });
+    } else if (error instanceof UserIncorrectPasswordError) {
+      return res.status(401).send({ error: (error as Error).message });
+    } else {
+      return res.status(500).send({ error: 'Something went wrong' });
+    }
+  }
 };
 
 export { loginController, registerController };

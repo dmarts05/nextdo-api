@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import { loginController, registerController } from '../controllers/auth';
 import { validateSchemaMiddleware } from '../middlewares/validate-schema';
-import { registerSchema } from '../schemas/zod';
+import { loginSchema, registerSchema } from '../schemas/zod';
 
 const router = Router();
 
@@ -12,6 +12,6 @@ router.post(
   registerController,
 );
 
-router.post('/login', loginController);
+router.post('/login', validateSchemaMiddleware(loginSchema), loginController);
 
 export { router };

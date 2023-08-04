@@ -4,3 +4,17 @@ export class UserAlreadyRegisteredError extends Error {
     this.name = 'UserAlreadyRegisteredError';
   }
 }
+
+export class UserNotFoundError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'UserNotFoundError';
+  }
+}
+
+export class UserIncorrectPasswordError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'UserIncorrectPasswordError';
+  }
+}
